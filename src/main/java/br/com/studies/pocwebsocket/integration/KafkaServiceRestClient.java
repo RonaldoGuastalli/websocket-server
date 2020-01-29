@@ -14,11 +14,11 @@ public class KafkaServiceRestClient {
 
     public void sendToKafkaService(String msg) {
         try {
-            KafkaServiceRequest kafkaServiceRequest = KafkaServiceRequest.builder().message(msg).build();
+
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
 
-            HttpEntity<KafkaServiceRequest> request = new HttpEntity<>(kafkaServiceRequest, headers);
+            HttpEntity<String> request = new HttpEntity<>(msg, headers);
 
             String format = "http://localhost:8715/kafka";
             String url = String.format(format);

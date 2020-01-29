@@ -12,9 +12,7 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.time.Duration;
-
 import java.util.Arrays;
 import java.util.Properties;
 
@@ -26,7 +24,7 @@ public class ConsumerService {
     private SocketHandler socketHandler;
 
     @EventListener(ApplicationReadyEvent.class)
-    public void consumer() throws IOException{
+    public void consumer() throws Exception {
         Properties props = new Properties();
         props.put("bootstrap.servers", "localhost:9092");
         props.put("group.id", "test");
@@ -44,11 +42,9 @@ public class ConsumerService {
                 log.info("mensagem enviada para o client!");
             }
         }
-
-
     }
 
-    public void returnMessageToClient(String message) throws IOException {
+    public void returnMessageToClient(String message) throws Exception {
         socketHandler.returnMessageToClient(message);
     }
 }
