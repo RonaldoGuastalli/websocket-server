@@ -13,6 +13,9 @@ repositories {
 }
 
 dependencies {
+	compile group: 'com.google.code.gson', name: 'gson', version: '2.7'
+	compileOnly("org.projectlombok:lombok:1.18.6")
+	annotationProcessor group: 'org.projectlombok', name: 'lombok'
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
