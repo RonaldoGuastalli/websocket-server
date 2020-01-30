@@ -13,7 +13,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Properties;
 
 @Component
@@ -33,7 +33,7 @@ public class ConsumerService {
         props.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
         props.setProperty(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");
         KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props);
-        consumer.subscribe(Arrays.asList("first_topic"));
+        consumer.subscribe(Collections.singletonList("filial_386"));
 
         while (true) {
             ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(1000));

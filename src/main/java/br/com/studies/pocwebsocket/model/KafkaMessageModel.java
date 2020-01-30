@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 public class KafkaMessageModel {
     private String hostname;
     private String filial;
+    private String filialTopic;
     private Boolean itensAssinados;
     private int idAssinatura;
 }

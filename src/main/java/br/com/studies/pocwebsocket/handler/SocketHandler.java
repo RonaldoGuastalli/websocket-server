@@ -16,6 +16,9 @@ import java.util.Map;
 @Service
 public class SocketHandler extends TextWebSocketHandler {
 
+    private static final String STATUS_NOTIFICACAO_PATH = "/notificacao-status";
+    private static final String ASSINATURA_PATH = "/assinatura";
+
     private Map<String, WebSocketSession> sessions = new HashMap<>();
 
     @Autowired
@@ -24,17 +27,29 @@ public class SocketHandler extends TextWebSocketHandler {
     public void handleTextMessage(WebSocketSession session, TextMessage message)
             throws Exception {
 
-        System.out.println(message);
+        sessions.putIfAbsent(session.getId(), session);
 
+        escolheDesvioDeFluxo(session, message);
+    }
+
+    private void escolheDesvioDeFluxo(WebSocketSession session, TextMessage message) throws Exception {
+        String path = session.getUri().getPath();
+        if (path.equals(STATUS_NOTIFICACAO_PATH)) {
+            desvioDeFluxoStatusNotificacao(session, message);
+        }
+        if (path.equals(ASSINATURA_PATH)) {
+            desvioDeFluxoAssinatura(session, message);
+        }
+    }
+
+    private void desvioDeFluxoStatusNotificacao(WebSocketSession session, TextMessage message) {
+        System.out.println("Desvio de fluxo status notificacao");
+    }
+
+    private void desvioDeFluxoAssinatura(WebSocketSession session, TextMessage message) throws Exception {
+        System.out.println("Desvio de fluxo assinatura");
         String hostname = getHostname(message.getPayload());
-
-        if (sessions.get(hostname) != null) {
-            sessions.put(hostname, session);
-        }
-        if (sessions.get(session.getId()) != null) {
-            sessions.put(session.getId(), session);
-        }
-
+        sessions.putIfAbsent(hostname, session);
         kafkaServiceRestClient.sendToKafkaService(message.getPayload());
     }
 
